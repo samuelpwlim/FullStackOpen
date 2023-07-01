@@ -16,54 +16,44 @@ const App = () => {
       }
     ]
   }
-  
-  let total = 0
-  course.parts.forEach(element => {
-    total += element.exercises
-  });
 
   return (
     <div>
-      <h1>{course.name}</h1>
-      <p>{course.parts[0].name} {course.parts[0].exercises}</p>
-      <p>{course.parts[1].name} {course.parts[1].exercises}</p>
-      <p>{course.parts[2].name} {course.parts[2].exercises}</p>
-      <p>Number of exercises {total}</p>
+      <Header course={course.name} />
+      <Content props={course.parts} />
+      <Total props={course.parts} />
     </div>
   )
 }
 
 const Header = (props) => {
-  return (
-    <div>
-      <h1>{props.course}</h1>
-    </div>
-  )
+  // console.log(props)
+  return <h1>{props.course}</h1>
+}
+
+
+const Part = (props) => {
+  // console.log(props)
+  return <p>{props.part} {props.exercise}</p>
 }
 
 const Content = ({props}) => {
+  // console.log(props)
   return (
-    <div>
-      <Part words={props[0].name} num={props[0].exercises}/>
-      <Part words={props[1].name} num={props[1].exercises}/>
-      <Part words={props[2].name} num={props[2].exercises}/>
-    </div>
+    <>
+      <Part part={props[0].name} exercise={props[0].exercises} />
+      <Part part={props[1].name} exercise={props[1].exercises} />
+      <Part part={props[2].name} exercise={props[2].exercises} />
+    </>
   )
 }
 
 const Total = ({props}) => {
+  // console.log(props)
   return (
-    <div>
-      <p>Number of exercises {props[0].exercises + props[1].exercises + props[2].exercises}</p>
-    </div>
-  )
-}
-
-const Part = (props) => {
-  return (
-    <div>
-      <p>{props.words} {props.num}</p>
-    </div>
+    <p>
+      Number of exercises {props[0].exercises + props[1].exercises + props[2].exercises}
+    </p>
   )
 }
 
