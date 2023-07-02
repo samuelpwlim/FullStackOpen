@@ -1,59 +1,46 @@
+import { useState } from 'react'
+
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  const [ counter, setCounter ] = useState(0)
+  console.log('rendering app w/ counter', counter)
+
+  const increment = () => {
+    setCounter(counter + 1)
+    console.log("incremented!", counter)
+  }
+
+  const reset = () => {
+    setCounter(0)
+    console.log("reset clicked!", counter)
+  }
+
+  const decrement = () => {
+    setCounter(counter - 1)
+    console.log("deceremented!", counter)
   }
 
   return (
-    <div>
-      <Header course={course.name} />
-      <Content props={course.parts} />
-      <Total props={course.parts} />
-    </div>
-  )
-}
-
-const Header = (props) => {
-  // console.log(props)
-  return <h1>{props.course}</h1>
-}
-
-
-const Part = (props) => {
-  // console.log(props)
-  return <p>{props.part} {props.exercise}</p>
-}
-
-const Content = ({props}) => {
-  // console.log(props)
-  return (
     <>
-      <Part part={props[0].name} exercise={props[0].exercises} />
-      <Part part={props[1].name} exercise={props[1].exercises} />
-      <Part part={props[2].name} exercise={props[2].exercises} />
+      <Display counter={counter} />
+      <Button handleClick={increment} text="Plus!"/>
+      <Button handleClick={reset} text="Reset me!" />
+      <Button handleClick={decrement} text="Minus!" />
     </>
   )
 }
 
-const Total = ({props}) => {
-  // console.log(props)
+// const Display = ({counter}) => {
+//   return (
+//     <div>{counter}</div>
+//   )
+// }
+const Display = ({counter}) => <div>{counter}</div>
+
+const Button = ({ handleClick, text }) => {
   return (
-    <p>
-      Number of exercises {props[0].exercises + props[1].exercises + props[2].exercises}
-    </p>
+    <button onClick={handleClick}>
+      {text}
+    </button>
   )
 }
 
