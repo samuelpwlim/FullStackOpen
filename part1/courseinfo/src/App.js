@@ -1,85 +1,58 @@
 import { useState } from 'react'
 
-const Button = ({handleClick, text}) => {
-  return (
-    <button onClick={handleClick}>{text}</button>
-  )
-}
+const App = () => {
+  const [ points, setPoints ] = useState(new Uint8Array(8))
+  const [selected, setSelected] = useState(0)
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
+  let maxItem = 0
 
-const StatisticLine = ({text, value, text2}) => {
-  return (
-    <div>{text} {value} {text2}</div>
-  )
-}
+  const getRndInt = () => {
+    const randomInt = Math.floor(Math.random() * (8))
+    setSelected(randomInt)
 
-const Statistics = (props) => {
-  if(props.total === 0) {
-    return (
-      <div>No feedback given</div>
-    )
   }
 
-  return (
-    <>
-      <table>
-        <tbody>
-          <tr>
-            <td>good</td>
-            <td>{props.good}</td>
-          </tr>
-          <tr>
-            <td>neutral</td>
-            <td>{props.neutral}</td>
-          </tr>
-          <tr>
-            <td>bad</td>
-            <td>{props.bad}</td>
-          </tr>
-          <tr>
-            <td>all</td>
-            <td>{props.total}</td>
-          </tr>
-          <tr>
-            <td>average</td>
-            <td>{(props.good - props.bad)/props.total}</td>
-          </tr>
-          <tr>
-            <td>positive</td>
-            <td>{(props.good*100/props.total) + " %"}</td>
-          </tr>
-        </tbody>
-      </table>
-      {/* <StatisticLine text="good" value={props.good} />
-      <StatisticLine text="neutral" value={props.neutral} />
-      <StatisticLine text="bad" value={props.bad} />
-      <StatisticLine text="all" value={props.total} />
-      <StatisticLine text="average" value={(props.good - props.bad)/props.total} />
-      <StatisticLine text="positive" value={(props.good*100/props.total) + " %"} /> */}
-    </>
-  )
-}
+  const getMax = () => {
+    console.log('hi from getMax')
+    console.log(points)
+    let max = 0
+    for (let i = 0; i < points.length; i++) {
+      if(points[i] > max) {
+        max = points[i]
+        maxItem = i
+      }
+    }
+  }
 
-const App = () => {
 
-  const [good, incGood] = useState(0)
-  const [neutral, incNeutral] = useState(0)
-  const [bad, incBad] = useState(0)
+  const vote = () => {
+    const copy = [...points]
+    copy[selected] += 1
+    setPoints(copy)
+  }
 
-  const handleGood = () => incGood(good + 1)
-  const handleNeutral = () => incNeutral(neutral + 1)
-  const handleBad = () => incBad(bad + 1)
+  getMax()
   
-  const total = good + neutral + bad
 
   return (
     <>
-      <h1>give feedback</h1>
-      <Button handleClick={handleGood} text="good" />
-      <Button handleClick={handleNeutral} text="neutral" />
-      <Button handleClick={handleBad} text="bad" />
-
-      <h1>statistics</h1>
-      <Statistics good={good} neutral={neutral} bad={bad} total={total}/>
+      <h1>Anecdote of the day</h1>
+      <div>{anecdotes[selected]}</div>
+      <div>has {points[selected]} votes</div>
+      <button onClick={vote}>vote</button>
+      <button onClick={getRndInt}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <div>{anecdotes[maxItem]}</div>
+      <div>has {points[maxItem]} votes</div>
     </>
   )
 }
