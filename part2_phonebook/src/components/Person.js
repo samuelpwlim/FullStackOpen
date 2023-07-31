@@ -1,6 +1,16 @@
-const Person = ({ name, number }) => {
+const Person = ({ name, number, del }) => {
+    const check = () => {
+        if(window.confirm(`Delete ${name} ?`)) {
+            del()
+        }
+        return
+    }
+    
     return (
-        <div>{name} {number}</div>
+        <div>
+            {name} {number}
+            <button onClick={check}>delete</button>
+        </div>
     )
 }
 
